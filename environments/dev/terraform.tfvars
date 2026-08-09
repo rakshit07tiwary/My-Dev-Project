@@ -1,5 +1,5 @@
-rg= {
-    resource_group_name = "rakshit_rg"
+rg = {
+    resource_group_name = "rakshit_rg1"    
     location = "eastus"
 }
 
