@@ -31,7 +31,7 @@ resource "azurerm_virtual_machine" "virtual_machine" {
   network_interface_ids = [azurerm_network_interface.NIC.id]
   vm_size               = var.VM.vm_size
 
- storage_image_reference {
+  storage_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts"
@@ -49,6 +49,6 @@ resource "azurerm_virtual_machine" "virtual_machine" {
     admin_password = "Password1234!"
   }
   os_profile_linux_config {
-    disable_password_authentication = false
+    disable_password_authentication = true
   }
 }

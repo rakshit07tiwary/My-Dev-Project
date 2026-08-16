@@ -1,46 +1,34 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "1.15.8"
-    }
-  }
-}
-
-# The Azure provider requires a separate block to initialize its features
-provider "azurerm" {
-  features {}
-}
-
 
 module "resource_group" {
   source = "../../modules/resource-group"
-  rg = {
-    resource_group_name = var.rg_name
-    location             = var.location
-  }
+  rg     = var.rg
 }
 
 module "vnet" {
   source = "../../modules/virtual_network"
-  vnet = {
-    resource_group_name = module.resource_group.resource_group_name
-    location             = module.resource_group.location
-    vnet_name            = var.vnet_name
-    address_space        = var.address_space
-  }
-
-  depends_on = [module.resource_group]
+  vnet   = var.vnet
 }
 
 module "subnet" {
   source = "../../modules/subnet"
-  subnet = {
-    resource_group_name = module.resource_group.resource_group_name
-    vnet_name            = module.vnet.vnet_name
-    subnet_name          = var.subnet_name
-    address_prefixes     = var.address_prefixes
-  }
-
-  depends_on = [module.resource_group, module.vnet]
+  subnet = var.subnet
 }
+
+resource "azurerm_network_interface" "NIC" {
+  name                = "${var.VM.prefix}-nic"
+  location            = var.rg.location
+  resource_group_name = var.rg.resource_group_name
+
+  ip_configuration {
+    name                          = "${var.VM.prefix}-ipconfig"
+    subnet_id                     = module.subnet.subnet_id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+module "VM" {
+  source    = "../../modules/virtual_machine"
+  VM        = var.VM
+  subnet_id = module.subnet.subnet_id
+}
+
