@@ -1,23 +1,17 @@
-variable "rg_name" {
-  type = string
-}
+variable "rg" {}
 
-variable "location" {
-  type = string
-}
+variable "vnet" {}
 
-variable "vnet_name" {
-  type = string
-}
+variable "subnet" {}
 
-variable "address_space" {
-  type = list(string)
-}
-
-variable "subnet_name" {
-  type = string
-}
-
-variable "address_prefixes" {
-  type = list(string)
+variable "VM" {
+  type = object({
+    vm_name             = string
+    resource_group_name = string
+    location            = string
+    vm_size             = string
+    admin_username      = string
+    ssh_public_key_path = string
+    prefix              = string
+  })
 }
