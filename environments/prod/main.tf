@@ -17,7 +17,7 @@ module "subnet" {
 resource "azurerm_network_interface" "NIC" {
   name                = "${var.VM.prefix}-nic"
   location            = var.rg.location
-  resource_group_name = var.rg.name
+  resource_group_name = var.rg.resource_group_name
 
   ip_configuration {
     name                          = "${var.VM.prefix}-ipconfig"
