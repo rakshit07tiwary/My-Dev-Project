@@ -1,12 +1,12 @@
 
 module "resource_group" {
   source = "../../modules/resource-group"
-  rg  = var.rg
+  rg     = var.rg
 }
 
 module "vnet" {
   source = "../../modules/virtual_network"
-  vnet = var.vnet
+  vnet   = var.vnet
 }
 
 module "subnet" {
