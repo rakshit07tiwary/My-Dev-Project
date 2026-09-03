@@ -6,18 +6,24 @@ module "resource_group" {
 
 module "vnet" {
   source = "../../modules/virtual_network"
-  vnet   = var.vnet
+  vnet = merge(var.vnet, {
+    resource_group_name = module.resource_group.resource_group_name
+    location            = module.resource_group.location
+  })
 }
 
 module "subnet" {
   source = "../../modules/subnet"
-  subnet = var.subnet
+  subnet = merge(var.subnet, {
+    resource_group_name = module.resource_group.resource_group_name
+    vnet_name           = module.vnet.name
+  })
 }
 
 resource "azurerm_network_interface" "NIC" {
   name                = "${var.VM.prefix}-nic"
-  location            = var.rg.location
-  resource_group_name = var.rg.resource_group_name
+  location            = module.resource_group.location
+  resource_group_name = module.resource_group.resource_group_name
 
   ip_configuration {
     name                          = "${var.VM.prefix}-ipconfig"
@@ -27,8 +33,11 @@ resource "azurerm_network_interface" "NIC" {
 }
 
 module "VM" {
-  source    = "../../modules/virtual_machine"
-  VM        = var.VM
+  source = "../../modules/virtual_machine"
+  VM = merge(var.VM, {
+    resource_group_name = module.resource_group.resource_group_name
+    location            = module.resource_group.location
+  })
   subnet_id = module.subnet.subnet_id
 }
 
