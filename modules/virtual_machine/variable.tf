@@ -1,6 +1,6 @@
 variable "VM" {
   type = object({
-    prefix = string
+    prefix              = string
     vm_name             = string
     resource_group_name = string
     location            = string

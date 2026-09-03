@@ -1,12 +1,12 @@
 
 module "resource_group" {
   source = "../../modules/resource-group"
-  rg  = var.rg
+  rg     = var.rg
 }
 
 module "vnet" {
   source = "../../modules/virtual_network"
-  vnet = var.vnet
+  vnet   = var.vnet
 }
 
 module "subnet" {
@@ -17,7 +17,7 @@ module "subnet" {
 resource "azurerm_network_interface" "NIC" {
   name                = "${var.VM.prefix}-nic"
   location            = var.rg.location
-  resource_group_name = var.rg.name
+  resource_group_name = var.rg.resource_group_name
 
   ip_configuration {
     name                          = "${var.VM.prefix}-ipconfig"
