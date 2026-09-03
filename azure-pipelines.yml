@@ -1,0 +1,35 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: 'my-mac-pool'
+
+variables:
+  workingDirectory: 'environments/dev'
+
+steps:
+  - script: terraform version
+    displayName: 'Check Terraform Installed'
+
+  - script: terraform init
+    workingDirectory: '$(workingDirectory)'
+    displayName: 'Terraform Init'
+
+  - script: terraform fmt -check
+    workingDirectory: '$(workingDirectory)'
+    displayName: 'Terraform Format Check'
+
+  - script: terraform validate
+    workingDirectory: '$(workingDirectory)'
+    displayName: 'Terraform Validate'
+
+  - script: terraform plan
+    workingDirectory: '$(workingDirectory)'
+    displayName: 'Terraform Plan'
+
+  - script: terraform apply -auto-approve
+    workingDirectory: '$(workingDirectory)'
+    displayName: 'Terraform Apply'
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
