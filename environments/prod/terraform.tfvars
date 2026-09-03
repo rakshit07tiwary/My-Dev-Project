@@ -1,6 +1,6 @@
 rg = {
   resource_group_name = "rakshit_rg1"
-  location            = "eastus"
+  location            = "centralus"
 }
 
 subnet = {
@@ -13,7 +13,7 @@ subnet = {
 vnet = {
   vnet_name           = "vnet-myproject-dev"
   address_space       = ["10.0.0.0/16"]
-  location            = "eastus"
+  location            = "centralus"
   resource_group_name = "rakshit_rg1"
 }
 
@@ -22,7 +22,7 @@ vnet = {
 VM = {
   vm_name             = "vm-myproject-dev"
   resource_group_name = "rakshit_rg1"
-  location            = "eastus"
+  location            = "centralus"
   vm_size             = "Standard_B1s"
   admin_username      = "adminuser"
   ssh_public_key_path = "~/.ssh/id_rsa.pub"
